@@ -11,7 +11,7 @@ def identify_objects(image_path, model="gemma3"):
     img_b64 = base64.b64encode(img_bytes).decode("utf-8")
 
     prompt = """
-    Identify the important objects in this image.
+    Identify the important objects in this image. do not include background images like sky
     Return only a ranked JSON list of object names with confidence scores between 0 and 1.
     without any other texts
     """
@@ -42,3 +42,5 @@ def identify_objects(image_path, model="gemma3"):
 
 result = identify_objects("temp_after.jpg")
 print(result)
+object_names = [item['object'] for item in result if item['confidence'] >= 0.75]
+text_result = ". ".join(object_names)
